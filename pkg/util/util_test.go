@@ -7,8 +7,12 @@ import (
 )
 
 // TestLogin the login
-func TestLogin(t *testing.T) {
-	callback, err := login("s.nEEaTPLjfEq4t9X4FWdIkAyQ", "http://localhost:8200")
+func TestReadToken(t *testing.T) {
+	cdFalse, err := readToken(false)
 	require.Equal(t, err, nil)
-	require.NotEmpty(t, callback)
+	require.NotEqual(t, cdFalse, "Couldn't find env.")
+
+	cdTrue, err := readToken(true)
+	require.Equal(t, err, nil)
+	require.Equal(t, cdTrue, "Don't read default token")
 }

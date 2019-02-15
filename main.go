@@ -14,9 +14,9 @@
 package main
 
 import (
-	"fmt"
+	"github.com/JAtula/vault-handler/cmd"
 )
 
 func main() {
-	fmt.Println("This is a placeholder")
+	cmd.Parse()
 }

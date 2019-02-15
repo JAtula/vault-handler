@@ -6,6 +6,7 @@ require (
 	github.com/Azure/go-autorest v11.4.0+incompatible // indirect
 	github.com/NYTimes/gziphandler v1.1.0 // indirect
 	github.com/SAP/go-hdb v0.13.2 // indirect
+	github.com/akamensky/argparse v0.0.0-20190115094700-b33e05fb8d69
 	github.com/aliyun/alibaba-cloud-sdk-go v0.0.0-20190214075142-03ef569c4fff // indirect
 	github.com/araddon/gou v0.0.0-20190110011759-c797efecbb61 // indirect
 	github.com/aws/aws-sdk-go v1.16.34 // indirect
@@ -33,6 +34,7 @@ require (
 	github.com/go-sql-driver/mysql v1.4.1 // indirect
 	github.com/go-stomp/stomp v2.0.2+incompatible // indirect
 	github.com/gocql/gocql v0.0.0-20190208221138-c53c3654dc8a // indirect
+	github.com/gogo/protobuf v1.1.1
 	github.com/golang/groupcache v0.0.0-20190129154638-5b532d6fd5ef // indirect
 	github.com/google/gofuzz v0.0.0-20170612174753-24818f796faf // indirect
 	github.com/googleapis/gax-go v2.0.2+incompatible // indirect

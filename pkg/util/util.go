@@ -1,15 +1,27 @@
 package util
 
-import "github.com/hashicorp/vault/api"
+import (
+	"fmt"
+	"io/ioutil"
+	"os"
+)
 
-func login(token string, addr string) (string, error) {
-	conf := &api.Config{
-		Address: addr,
+func readToken(token bool) (string, error) {
+	if token {
+		return "Don't read default token", nil
 	}
-	client, err := api.NewClient(conf)
+	data, err := ioutil.ReadFile("./test_token")
 	if err != nil {
 		return "", err
 	}
-	client.SetToken(token)
-	return token, nil
+	err = os.Setenv("VAULT_TOKEN", string(data))
+	if err != nil {
+		fmt.Println(err)
+		return "", err
+	}
+	cb, s := os.LookupEnv("VAULT_TOKEN")
+	if s == false {
+		return "Couldn't find env.", err
+	}
+	return cb, nil
 }

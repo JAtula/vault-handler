@@ -2,7 +2,6 @@ package secrets
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/hashicorp/vault/api"
 )
@@ -10,7 +9,6 @@ import (
 func parseJSON(parse map[string]interface{}) (string, error) {
 	pd, err := json.Marshal(parse)
 	if err != nil {
-		fmt.Println(err)
 		return "", err
 	}
 	return string(pd), nil
@@ -28,6 +26,9 @@ func readSecret(path string, addr string) (string, error) {
 	cb, err := client.Read(path)
 	if err != nil {
 		return "", err
+	}
+	if cb == nil {
+		return "Secret not found!", nil
 	}
 	parsed, err := parseJSON(cb.Data)
 	if err != nil {
