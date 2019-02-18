@@ -54,24 +54,26 @@ func Execute() {
 
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
-			Name:        "token, t",
-			Usage:       "token path",
-			Value:       "/var/run/secrets/kubernetes.io/serviceaccount/token",
+			Name:        "token-path, t",
+			Usage:       "(Required) token path `./auth_token`",
 			Destination: &token,
 		},
 		cli.StringFlag{
 			Name:        "path, p",
-			Usage:       "secret path `/secret/data/foo.json`",
+			Usage:       "(Required) secret path `/secret/data/test`",
 			Destination: &path,
 		},
 		cli.StringFlag{
 			Name:        "output, o",
-			Usage:       "output path `/opt/secret/secrets.json`",
+			Usage:       "(Required) output path `./foo.json`",
 			Destination: &output,
 		},
 	}
 
 	app.Action = func(c *cli.Context) error {
+		if token == "" || path == "" || output == "" {
+			cli.ShowCommandHelpAndExit(c, "", 1)
+		}
 		tokenData, err := util.ReadTokenFromFile(token)
 		check(err)
 		err = util.SetVaultToken(tokenData)
