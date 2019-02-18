@@ -14,9 +14,49 @@
 package main
 
 import (
-	"github.com/JAtula/vault-handler/cmd"
+	"log"
+	"os"
+
+	"github.com/urfave/cli.v2"
 )
 
 func main() {
-	cmd.Parse()
+	app := cli.NewApp()
+
+	app.Flags = []cli.Flag{
+		cli.StringFlag{
+			Name:     "token, t",
+			Usage:    "token for vault auth",
+			FilePath: "/var/run/secrets/kubernetes.io/serviceaccount/token",
+			Destination: &token
+		},
+		cli.StringFlag{
+			Name:  "path, p",
+			Usage: "secret path `/secret/data/foo`",
+			Destination: &path
+		},
+		cli.StringFlag{
+			Name:  "output, o",
+			Usage: "output path `/opt/secret/secrets.json`",
+			Destination: &output
+		},
+
+		app.Action = func(c *cli.Context) error {
+			name := "someone"
+			if c.NArg() > 0 {
+			  name = c.Args()[0]
+			}
+			if language == "spanish" {
+			  fmt.Println("Hola", name)
+			} else {
+			  fmt.Println("Hello", name)
+			}
+			return nil
+		  }
+	}
+
+	err := app.Run(os.Args)
+	if err != nil {
+		log.Fatal(err)
+	}
 }

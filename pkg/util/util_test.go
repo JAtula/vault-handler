@@ -8,11 +8,11 @@ import (
 
 // TestLogin the login
 func TestReadToken(t *testing.T) {
-	cdFalse, err := readToken(false)
+	cdFalse, err := readToken("")
 	require.Equal(t, err, nil)
 	require.NotEqual(t, cdFalse, "Couldn't find env.")
 
-	cdTrue, err := readToken(true)
+	cdTrue, err := readToken("asdasd")
 	require.Equal(t, err, nil)
 	require.Equal(t, cdTrue, "Don't read default token")
 }
