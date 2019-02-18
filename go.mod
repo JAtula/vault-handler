@@ -103,6 +103,8 @@ require (
 	gopkg.in/gorethink/gorethink.v4 v4.1.0 // indirect
 	gopkg.in/ory-am/dockertest.v2 v2.2.3 // indirect
 	gopkg.in/square/go-jose.v2 v2.2.2 // indirect
+	gopkg.in/urfave/cli.v1 v1.20.0
+	gopkg.in/urfave/cli.v2 v2.0.0-20180128182452-d3ae77c26ac8
 	k8s.io/api v0.0.0-20190213031107-c9c3ac7a342d // indirect
 	k8s.io/apimachinery v0.0.0-20190213190008-5eb658cbe970 // indirect
 	k8s.io/klog v0.2.0 // indirect

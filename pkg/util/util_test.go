@@ -1,18 +1,18 @@
 package util
 
 import (
+	"io/ioutil"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 )
 
-// TestLogin the login
-func TestReadToken(t *testing.T) {
-	cdFalse, err := readToken("")
-	require.Equal(t, err, nil)
-	require.NotEqual(t, cdFalse, "Couldn't find env.")
+// Test write payload
+func TestWriteSecret(t *testing.T) {
+	writeSecretPayload("./test", "asdasd")
+	require.FileExists(t, "./test")
 
-	cdTrue, err := readToken("asdasd")
+	dat, err := ioutil.ReadFile("./test")
 	require.Equal(t, err, nil)
-	require.Equal(t, cdTrue, "Don't read default token")
+	require.Equal(t, string(dat), "asdasd")
 }

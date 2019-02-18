@@ -14,7 +14,8 @@ func parseJSON(parse map[string]interface{}) (string, error) {
 	return string(pd), nil
 }
 
-func readSecret(path string, addr string) (string, error) {
+// ReadSecret from Hashicorp Vault
+func ReadSecret(path string, addr string) (string, error) {
 	conf := &api.Config{
 		Address: addr,
 	}
@@ -28,7 +29,7 @@ func readSecret(path string, addr string) (string, error) {
 		return "", err
 	}
 	if cb == nil {
-		return "Secret not found!", nil
+		return "404", nil
 	}
 	parsed, err := parseJSON(cb.Data)
 	if err != nil {

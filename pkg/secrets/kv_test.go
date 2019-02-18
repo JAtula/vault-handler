@@ -9,7 +9,7 @@ import (
 
 // TestRead a secret
 func TestRead(t *testing.T) {
-	callback, err := readSecret("/secret/data/test", os.Getenv("VAULT_ADDR"))
+	callback, err := ReadSecret("/secret/data/test", os.Getenv("VAULT_ADDR"))
 	require.Equal(t, err, nil)
-	require.NotEqual(t, callback, "Secret not found!")
+	require.NotEqual(t, callback, "404")
 }
