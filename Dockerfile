@@ -12,11 +12,8 @@ ENV CGO_ENABLED=0
 
 RUN go build .
 
-FROM golang:1.11.5-alpine
+FROM scratch
 
-COPY --from=build /opt/build/vault-handler /opt/app/vault-handler
+COPY --from=build /opt/build/vault-handler /
 
-RUN chmod +x /opt/app/vault-handler && \
-    mv /opt/app/vault-handler /usr/local/bin/
-
-ENTRYPOINT [ "vault-handler" ]
+ENTRYPOINT [ "/vault-handler" ]

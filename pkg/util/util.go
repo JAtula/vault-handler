@@ -1,36 +1,50 @@
 package util
 
 import (
-	"fmt"
+	"encoding/json"
 	"io/ioutil"
 	"os"
+	"strings"
 )
+
+func _checkError(e error) {
+	if e != nil {
+		panic(e)
+	}
+}
 
 //ReadTokenFromFile and inject into env variable
 func ReadTokenFromFile(filename string) (string, error) {
 	cb, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return "", err
-	}
+	_checkError(err)
 	return string(cb), nil
 }
 
 //SetVaultToken to environment variable VAULT_TOKEN
 func SetVaultToken(token string) error {
 	err := os.Setenv("VAULT_TOKEN", token)
-	if err != nil {
-		return err
-	}
+	_checkError(err)
 	return nil
 }
 
-// WriteSecretPayload to a .json dump
-func WriteSecretPayload(path string, data string) (string, error) {
-	payload := []byte(data)
-	err := ioutil.WriteFile(path, payload, 0644)
-	if err != nil {
-		return "", err
+type secretPayload struct {
+	Data map[string]interface{} `json:"data"`
+}
+
+// WriteSecretPayload to a .env dump
+func WriteSecretPayload(path string, data string) error {
+	res := secretPayload{}
+	err := json.Unmarshal([]byte(data), &res)
+	_checkError(err)
+	var str strings.Builder
+	for key, value := range res.Data {
+		str.WriteString(strings.ToUpper(key))
+		str.WriteString("=")
+		str.WriteString(value.(string))
+		str.WriteString("\n")
 	}
-	response := fmt.Sprintf("Secret written to %s", path)
-	return response, nil
+	err = ioutil.WriteFile(path, []byte(str.String()), 0644)
+	_checkError(err)
+	return nil
+
 }
