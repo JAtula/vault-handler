@@ -37,7 +37,7 @@ func Execute() {
 	app.Name = "vault-handler"
 	app.Description = "Read key-value secrets from Hashicorp's Vault."
 	app.Usage = "Yet another Vault CLI tool."
-	app.Version = "0.1.0"
+	app.Version = "0.2.0"
 	app.Compiled = time.Now()
 	app.Authors = []cli.Author{
 		cli.Author{
