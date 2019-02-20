@@ -4,10 +4,28 @@ import (
 	"crypto/md5"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 )
+
+// Test token read
+func TestReadTokenFromFile(t *testing.T) {
+	require.FileExists(t, "./test_token")
+	dat, err := ReadTokenFromFile("./test_token")
+	require.Equal(t, err, nil)
+	digest := fmt.Sprintf("%x", md5.Sum([]byte(dat)))
+	require.Equal(t, digest, "383aad497c96fdd9453ada3877fd748a")
+}
+
+//Test setting token as environment variable
+func TestSetVaultToken(t *testing.T) {
+	err := SetVaultToken("asd")
+	require.Equal(t, err, nil)
+	require.NotEmpty(t, os.Getenv("VAULT_TOKEN"))
+	require.Equal(t, os.Getenv("VAULT_TOKEN"), "asd")
+}
 
 // Test write payload
 func TestWriteSecret(t *testing.T) {
