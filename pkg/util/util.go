@@ -38,6 +38,7 @@ func WriteSecretPayload(path string, data string) error {
 	_checkError(err)
 	var str strings.Builder
 	for key, value := range res.Data {
+		str.WriteString("export ")
 		str.WriteString(strings.ToUpper(key))
 		str.WriteString("=")
 		str.WriteString(value.(string))
