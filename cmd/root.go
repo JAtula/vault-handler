@@ -91,9 +91,9 @@ OPTIONS:
 					fmt.Fprintf(c.App.Writer, "\nRequired flags missing.\n")
 					cli.ShowCommandHelpAndExit(c, "read", 1)
 				}
-				tokenData, err := util.ReadTokenFromFile(token)
+				tokenData, err := util.ReadKubeTokenFromFile(token)
 				_errCheck(err)
-				err = util.SetVaultToken(tokenData)
+				err = util.Login("http://localhost:8200/v1/auth/kubernetes/login", tokenData)
 				_errCheck(err)
 				data, err := secrets.ReadSecret(path, string(os.Getenv("VAULT_ADDR")))
 				_errCheck(err)

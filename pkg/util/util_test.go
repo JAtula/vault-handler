@@ -4,27 +4,25 @@ import (
 	"crypto/md5"
 	"fmt"
 	"io/ioutil"
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/require"
 )
 
 // Test token read
-func TestReadTokenFromFile(t *testing.T) {
+func TestReadKubeTokenFromFile(t *testing.T) {
 	require.FileExists(t, "./test_token")
-	dat, err := ReadTokenFromFile("./test_token")
+	dat, err := ReadKubeTokenFromFile("./test_token")
 	require.Equal(t, err, nil)
 	digest := fmt.Sprintf("%x", md5.Sum([]byte(dat)))
-	require.Equal(t, digest, "383aad497c96fdd9453ada3877fd748a")
+	require.Equal(t, digest, "45168a1bf0ab611eab316af682c0ef91")
 }
 
-//Test setting token as environment variable
-func TestSetVaultToken(t *testing.T) {
-	err := SetVaultToken("asd")
+func TestLogin(t *testing.T) {
+	token, err := ioutil.ReadFile("./test_token")
 	require.Equal(t, err, nil)
-	require.NotEmpty(t, os.Getenv("VAULT_TOKEN"))
-	require.Equal(t, os.Getenv("VAULT_TOKEN"), "asd")
+	err = Login("http://localhost:8200/v1/auth/kubernetes/login", string(token))
+	require.Equal(t, err, nil)
 }
 
 // Test write payload
@@ -34,5 +32,5 @@ func TestWriteSecret(t *testing.T) {
 	dat, err := ioutil.ReadFile("./.env_test")
 	require.Equal(t, err, nil)
 	digest := fmt.Sprintf("%x", md5.Sum(dat))
-	require.Equal(t, digest, "81bafd0fd38daeafad2512e480a8f52d")
+	require.Equal(t, digest, "b6d62d7836d92c66a390e26b60d99f1a")
 }
