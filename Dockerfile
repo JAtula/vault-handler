@@ -12,7 +12,7 @@ ENV CGO_ENABLED=0
 
 RUN go build .
 
-FROM scratch
+FROM golang:1.11.5-alpine
 
 COPY --from=build /opt/build/vault-handler /
 

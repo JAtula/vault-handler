@@ -54,7 +54,6 @@ func Login(address string, token string) error {
 	// set client token as env VAULT_TOKEN
 	err = _setVaultToken(cb.Auth.ClientToken)
 	_checkError(err)
-	fmt.Println(fmt.Sprintf("Set token %s to env VAULT_TOKEN", cb.Auth.ClientToken))
 	return nil
 }
 

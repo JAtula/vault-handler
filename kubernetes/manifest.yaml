@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  name: hyperspace
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 9393
+  selector:
+    app: hyperspace
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: hyperspace
+  name: hyperspace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hyperspace
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: hyperspace
+    spec:
+      serviceAccountName: vault-sa
+      initContainers:
+        - name: vault-handler
+          image: jatula/vault-handler:0.5.0
+          args:
+            - "read"
+            - "-t /var/run/secrets/kubernetes.io/serviceaccount/token"
+            - "-p /secret/data/test"
+            - "-o /opt/secrets/.env"
+          env:
+            - name: VAULT_ADDR
+              value: http://localhost:8200
+          volumeMounts:
+            - name: app-creds
+              mountPath: /opt/secrets
+      containers:
+      - image: jatula/hyperspace:kube-demo
+        name: hyperspace
+        ports:
+        - containerPort: 9393
+        resources: {}
+        volumeMounts:
+        - name: app-creds
+          mountPath: /opt/secrets
+      volumes:
+      - name: app-creds
+        emptyDir: {}
+status: {}

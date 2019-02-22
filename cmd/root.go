@@ -93,7 +93,8 @@ OPTIONS:
 				}
 				tokenData, err := util.ReadKubeTokenFromFile(token)
 				_errCheck(err)
-				err = util.Login("http://localhost:8200/v1/auth/kubernetes/login", tokenData)
+				loginPath := os.Getenv("VAULT_ADDR") + "/v1/auth/kubernetes/login"
+				err = util.Login(loginPath, tokenData)
 				_errCheck(err)
 				data, err := secrets.ReadSecret(path, string(os.Getenv("VAULT_ADDR")))
 				_errCheck(err)
