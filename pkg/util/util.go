@@ -23,7 +23,7 @@ func _setVaultToken(token string) error {
 	return nil
 }
 
-//ReadKubeTokenFromFile and inject into env variable
+//ReadKubeTokenFromFile and return it as string
 func ReadKubeTokenFromFile(filename string) (string, error) {
 	cb, err := ioutil.ReadFile(filename)
 	_checkError(err)
